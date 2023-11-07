@@ -1,0 +1,35 @@
+{% include "header.html" %}
+<body>
+    <div class="container">
+        <form method="get" action="{% url 'search-repositories' %}" class="search-container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Search repositories">
+                      <select name="sort_by" class="custom-select" placeholder ="Sort By">
+                          <option value="stars" {% if sort_by == 'stars' %}selected{% endif %}> Stars</option>
+                          <option value="forks" {% if sort_by == 'forks' %}selected{% endif %}> Forks</option>
+                          <option value="last_commit" {% if sort_by == 'last_commit' %}selected{% endif %}>Last Commit</option>
+                      </select>
+                      <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+            
+            </div>
+        </form>
+<h1>Search Results</h1>
+        <ul class="list-group repository-list">
+            {% for repository in repositories %}
+                <li class="list-group-item repository">
+                    <h2 class="repository-title">{{ repository.name }}</h2>
+                    <p class="repository-description">Description: {{ repository.description }}</p>
+                    <p class="repository-details">Stars: {{ repository.stars }} | Forks: {{ repository.forks }}</p>
+                    <p class="repository-details">Last Commit: {{ repository.last_commit }}</p>
+                </li>
+            {% empty %}
+                <p class="alert alert-info">No repositories found.</p>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

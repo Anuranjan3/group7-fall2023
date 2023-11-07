@@ -3,7 +3,7 @@ from repositories.models import Language, Repository
 from apscheduler.schedulers.background import BackgroundScheduler
 
 # Access token for GitHub API authorization
-ACCESS_TOKEN = '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'
+ACCESS_TOKEN = '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'
 
 # URL for GitHub GraphQL API
 API_URL = 'https://api.github.com/graphql'
@@ -54,7 +54,7 @@ def get_repositories(total):
     repositories = []
     cursor = ''
 
-    for i in range(total // 2):
+    for i in range(total // 10):
         response = requests.post(API_URL,
                                  json={'query': QUERY % cursor},
                                  headers=HEADERS)
@@ -71,7 +71,7 @@ def update():
     to the database. If the repository already existts, the data for it will
     be updated. If it doesn't exist, a new one will be created.
     '''
-    repositories = get_repositories(10)
+    repositories = get_repositories(500)
 
     for repository in repositories:
 
@@ -108,8 +108,11 @@ def update():
 
 def start():
     '''
-    Schedule task to update repository database every 5 minutes.
+    Schedule task to update repository database every hur
     '''
     scheduler = BackgroundScheduler()
-    scheduler.add_job(update, 'interval', minutes=5)
+    scheduler.add_job(update, 'interval', hours=1)
     scheduler.start()
+
+
+update()

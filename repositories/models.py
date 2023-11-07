@@ -7,7 +7,7 @@ class Language(models.Model):
     def __str__(self):
         return self.name
 
-
+  
 class Repository(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=350)
